@@ -26,5 +26,24 @@ pipeline {
                 '''
             }
         }
+        stage('Deploy') {
+           agent {
+                docker {
+                    image 'node:22-alpine'
+                    reuseNode true
+                }
+            }
+            environment {
+                // Creates a writable space for npm caching inside the container workspace
+                HOME = "${WORKSPACE}"
+            }
+            steps {
+                sh '''
+                    npm install netlify-cli -g
+                    netlify --version
+
+                '''
+            }
+        }
     }
 }
