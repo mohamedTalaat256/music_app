@@ -7,17 +7,23 @@ pipeline {
                 docker {
                     image 'node:22-alpine'
                     reuseNode true
-                    // This forces Docker to use Jenkins user permissions
-                    args '-u 1000:1000'
                 }
             }
+            environment {
+                // Creates a writable space for npm caching inside the container workspace
+                HOME = "${WORKSPACE}"
+            }
             steps {
-              sh '''
-                node --version
-                npm install -g @angular/cli
-                npm install
-                ng build --configuration production --base-href ./
-              '''
+                sh '''
+                    node --version
+                    npm --version
+
+                    # Install dependencies locally
+                    npm ci
+
+                    # Run the build using npx to use the local Angular CLI
+                    npx ng build --configuration production --base-href ./
+                '''
             }
         }
     }
