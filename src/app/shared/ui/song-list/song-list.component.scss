@@ -1,0 +1,145 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.viewport {
+  height: 100%;
+  min-height: 320px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 64px 16px;
+  color: var(--text-muted);
+  text-align: center;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.6;
+  }
+}
+
+.song-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 2fr) minmax(0, 1.4fr) 56px 40px;
+  align-items: center;
+  gap: 14px;
+  height: 64px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  transition: background 0.18s ease, transform 0.18s ease;
+  cursor: default;
+
+  &:hover {
+    background: var(--surface-2);
+  }
+
+  &.active {
+    background: color-mix(in srgb, var(--primary) 16%, transparent);
+  }
+
+  &.active .title {
+    color: var(--primary);
+    font-weight: 600;
+  }
+}
+
+.art {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--surface-2);
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  &:hover .play-overlay {
+    opacity: 1;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist,
+.album {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+}
+
+@media (max-width: 720px) {
+  .song-row {
+    grid-template-columns: 48px minmax(0, 1fr) 44px;
+  }
+  .album,
+  .time {
+    display: none;
+  }
+}

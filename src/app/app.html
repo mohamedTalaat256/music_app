@@ -1,0 +1,41 @@
+<div class="shell">
+  <!-- Sidebar (desktop) / bottom nav (mobile) -->
+  <nav class="sidebar glass" aria-label="Primary">
+    <div class="brand">
+      <span class="logo"><mat-icon>graphic_eq</mat-icon></span>
+      <span class="brand-name">Resonance</span>
+    </div>
+
+    <ul class="nav">
+      @for (item of nav; track item.path) {
+        <li>
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            class="nav-link"
+            [matTooltip]="item.label"
+            matTooltipPosition="right"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="content">
+      <router-outlet />
+    </div>
+
+    <!-- Now-playing dock: visualizer + transport -->
+    <footer class="dock">
+      <div class="viz glass" [class.hidden]="!currentSong()">
+        <app-visualizer [mode]="visualizerMode()" />
+      </div>
+      <app-player-bar />
+    </footer>
+  </main>
+</div>
