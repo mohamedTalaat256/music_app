@@ -30,6 +30,7 @@
     "@ngrx/store-devtools": "^22.0.0",
     "audiomotion-analyzer": "^4.5.4",
     "dexie": "^4.4.5",
+    "firebase": "^12.19.0",
     "music-metadata-browser": "^2.5.11",
     "rxjs": "~7.8.0",
     "tone": "^15.1.22",
