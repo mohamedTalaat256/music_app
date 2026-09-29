@@ -33,14 +33,16 @@ pipeline {
             }
             environment {
                 HOME = "${WORKSPACE}"
+                // Forces the container layer to inherit the global credential variable
+                FIREBASE_TOKEN = "${FIREBASE_TOKEN}"
             }
             steps {
                 sh '''
                 node --version
                 npm --version
 
-                # Fixed: Explicitly declare the firebase-tools package using npx
-                npx --package=firebase-tools firebase deploy --only hosting --project ${FIREBASE_PROJECT_ID}
+                # Fixed: Explicitly pass the token using the --token flag to guarantee container authentication
+                npx --package=firebase-tools firebase deploy --only hosting --project ${FIREBASE_PROJECT_ID} --token "${FIREBASE_TOKEN}"
                 '''
             }
         }
