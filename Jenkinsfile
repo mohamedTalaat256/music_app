@@ -12,6 +12,7 @@ pipeline {
             environment {
                 // Creates a writable space for npm caching inside the container workspace
                 HOME = "${WORKSPACE}"
+                FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
             }
             steps {
                 sh '''
@@ -20,6 +21,7 @@ pipeline {
 
                     # Install dependencies locally
                     npm ci
+
 
                     # Run the build using npx to use the local Angular CLI
                     npx ng build --configuration production --base-href ./
@@ -39,11 +41,22 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install netlify-cli -g
-                    netlify --version
-
+                    npm install -g firebase-tools
+                    firebase --version
+                    echo "Deploying to Firebase Hosting..."
+                    firebase deploy --only hosting --token ${FIREBASE_TOKEN}
                 '''
             }
         }
+    }
+
+    always {
+      echo 'Pipeline execution complete.'
+    }
+    success {
+      echo 'Angular application successfully deployed to Firebase Hosting!'
+    }
+    failure {
+      echo 'Pipeline failed. Please check the logs.'
     }
 }
